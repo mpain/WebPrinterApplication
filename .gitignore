@@ -1,0 +1,11 @@
+bin
+obj
+
+*.suo
+*.user
+
+*.DS_Store
+
+/TestResults
+/WebPrinterApplication/bin
+/WebPrinterApplication/obj

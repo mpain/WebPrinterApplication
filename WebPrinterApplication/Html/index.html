@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Print Ticket Form</title>
+</head>
+<body>
+<style>
+	body {
+		width: 100%;
+	}
+	
+	fieldset {
+		margin: 50px auto 0 auto;
+		width: 400px;
+	}
+	
+	fieldset ul, fieldset li {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	fieldset li {
+		clear: both;
+		list-style: none;
+		padding-bottom: 10px;
+	}
+
+	fieldset textarea {
+		outline: none;
+		-moz-appearance: none;
+		border: 1px solid #999;
+		resize: none;
+	}
+	
+	fieldset input,
+	fieldset textarea {
+		margin: 2px 0;
+		float: left;
+		width: 250px;
+	}
+	
+	
+	fieldset label {
+		width: 140px;
+		float: left;
+	}
+	
+	fieldset button {
+		float: right;
+		width: 260px;
+		height: 40px;
+		margin-right: 2px;
+	}
+</style>
+<script> 
+	function submitPressed() { 
+		document.printForm.submitButton.disabled = true;  
+		document.printForm.submit(); 
+	} 
+</script>
+<fieldset>
+	<legend>Печать чека</legend>
+	<form name="printForm" action="/order/index.html" method="post">
+	<input type="hidden" name="logo" value="expert"> 
+	<ul>
+		<li>
+			<label for="name">Имя</label>
+			<input type="text" id="name" name="name">
+		</li>
+		<li>
+			<label for="name">Телефон</label>
+			<input type="text" id="phone" name="phone">
+		</li>
+		<li>
+			<label for="email">E-mail</label>
+			<input type="text" id="email" name="email"> 
+		</li>
+		<li>
+			<label for="message">Сообщение</label>
+			<textarea placeholder="Произвольное сообщение..." rows="10" id="message" name="message"></textarea>
+		</li>
+		<li>
+			<label for="submit"></label>
+			<button type="submit" name="submitButton" onclick="submitPressed();">Печатать</button>
+		</li>
+	</ul>
+	</form>
+	</fieldset>	
+</body>
+</html>

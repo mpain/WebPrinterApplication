@@ -1,7 +1,6 @@
 #region Using Directives
 
 using System;
-using System.Linq;
 using System.Text;
 using System.IO.Ports;
 using log4net;
@@ -59,19 +58,23 @@ namespace WepPrinterApplication.Common {
         {
             string[] pn = SerialPort.GetPortNames();
 
-            if (pn.Any(port => port.StartsWith(portName)))
+            foreach (var port in pn)
             {
-                SerialPort = new SerialPort(portName, baudrate)
+                if (port.StartsWith(portName))
                 {
-                    Parity = parity,
-                    StopBits = stopBits,
-                    DataBits = dataBits,
-                    Handshake = shakeType,
-                    Encoding = Encoding.ASCII
-                };
+                    SerialPort = new SerialPort(portName, baudrate)
+                    {
+                        Parity = parity,
+                        StopBits = stopBits,
+                        DataBits = dataBits,
+                        Handshake = shakeType,
+                        Encoding = Encoding.ASCII
+                    };
 
-                SerialPort.DataReceived += new SerialDataReceivedEventHandler(OnSerialDataReceived);
-                SerialPort.Open();
+                    SerialPort.DataReceived += new SerialDataReceivedEventHandler(OnSerialDataReceived);
+                    SerialPort.Open();
+                    break;
+                }
             }
         }
 

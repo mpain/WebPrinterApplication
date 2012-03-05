@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.IO.Ports;
-using System.Linq;
 using System.Threading;
 using WepPrinterApplication.Common;
 using log4net;
@@ -119,13 +118,41 @@ namespace WepPrinterApplication.Printer
             PrintArrayList(printList);
         }
 
-        private void PrintArrayList(ArrayList list) {
-            int length = (from object o in list where o != null select ((byte[]) o).Length).Sum();
+        //private void PrintArrayList(ArrayList list) {
+        //    int length = (from object o in list where o != null select ((byte[]) o).Length).Sum();
+
+        //    var resultArray = new byte[length];
+        //    var pos = 0;
+        //    foreach (byte[] stringData in from object o in list where o != null select (byte[]) o)
+        //    {
+        //        Array.Copy(stringData, 0, resultArray, pos, stringData.Length);
+        //        pos += stringData.Length;
+        //    }
+
+        //    SendOverCom(resultArray, 0, resultArray.Length);
+        //}
+
+        private void PrintArrayList(ArrayList list)
+        {
+            int length = 0;
+            foreach (byte[] element in list)
+            {
+                if (element != null)
+                {
+                    length += element.Length;
+                }
+            }
 
             var resultArray = new byte[length];
             var pos = 0;
-            foreach (byte[] stringData in from object o in list where o != null select (byte[]) o)
+            
+            foreach (byte[] stringData in list)
             {
+                if (stringData == null)
+                {
+                    continue;
+                }
+
                 Array.Copy(stringData, 0, resultArray, pos, stringData.Length);
                 pos += stringData.Length;
             }

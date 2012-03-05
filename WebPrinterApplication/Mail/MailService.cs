@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.Net;
@@ -117,13 +116,13 @@ namespace WebPrinterApplication.Mail
                     mail.Subject = settings.Subject;
                     mail.Body = settings.Body;
 
-                    using (var smtp = new SmtpClient(settings.SmtpGateway, settings.SmtpPort))
-                    {
-                        smtp.EnableSsl = settings.UseSsl;
-                        smtp.Credentials = new NetworkCredential(settings.User, settings.Password);
-                        smtp.Send(mail);
-                        result = true;
-                    }
+                    SmtpClient smtp = new SmtpClient(settings.SmtpGateway, settings.SmtpPort);
+
+                    smtp.EnableSsl = settings.UseSsl;
+                    smtp.Credentials = new NetworkCredential(settings.User, settings.Password);
+                    smtp.Send(mail);
+                    result = true;                
+                    
                 }
             }
             catch (Exception ex)

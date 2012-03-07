@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO.Ports;
 using System.Threading;
-using WepPrinterApplication.Common;
+using WebPrinterApplication.Common;
 using log4net;
 
 namespace WepPrinterApplication.Printer
@@ -94,6 +94,7 @@ namespace WepPrinterApplication.Printer
         /// Производит отсоединение от последовательного порта
         /// </summary>
         public override void Disconnect() {
+            base.Disconnect();
             PortClose();
         }
 

@@ -24,6 +24,8 @@ namespace WebPrinterApplication
         private IOrderTicketProcessor ticketProcessor;
         private IMailService mailService;
 
+        private static readonly String PICTURE_FILE = Path.Combine(Application.StartupPath, @"ticket.png");
+
         public MainForm()
         {
             InitializeComponent();
@@ -85,6 +87,8 @@ namespace WebPrinterApplication
 
         private void OnLoad(object sender, EventArgs e)
         {
+            OnFinishedPrinting();
+
             log.Info("Creating aan instance of a web server...");
             server = new WebServer();
             server.OrderEvent += new WebServer.OrderHandler(OnServerOrderEvent);
@@ -108,7 +112,8 @@ namespace WebPrinterApplication
             if (!String.IsNullOrEmpty(textBoxCaption.Text)) {
                 data.Caption = textBoxCaption.Text;
             }
-            ticketProcessor.PrintTicket(data);
+            picBoxLastTicket.PictureFile = null;
+            ticketProcessor.PrintTicket(data, checkBoxSkipPrinting.Checked, PICTURE_FILE);
 
             MailSettings settings = createMailSettings(data);
             if (!String.IsNullOrEmpty(settings.To))
@@ -129,6 +134,16 @@ namespace WebPrinterApplication
             ticketProcessor = new OrderTicketProcessor() {
                 Printer = ticketPrinter
             };
+            ticketProcessor.OnFinishedDelegate += new TicketProcessor.OnFinished(OnFinishedPrinting);
+        }
+
+        void OnFinishedPrinting()
+        {
+            if (File.Exists(PICTURE_FILE))
+            {
+                picBoxLastTicket.PictureFile = PICTURE_FILE;
+                picBoxLastTicket.Invalidate();
+            }
         }
 
         private void StartServer(int serverPort, String printerPortName)

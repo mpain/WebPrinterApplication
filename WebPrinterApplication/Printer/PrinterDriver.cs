@@ -1,6 +1,6 @@
 using System;
 using System.Timers;
-using WepPrinterApplication.Common;
+using WebPrinterApplication.Common;
 using System.Threading;
 using Timer = System.Timers.Timer;
 
@@ -84,12 +84,18 @@ namespace WepPrinterApplication.Printer
             OnReceive += ReceiveResponse;
             Connect();
             if(!IsConnected) {
-                throw new Exception("Невозможно подсоединиться к последовательному порту принтера.");
+                return; // throw new Exception("Невозможно подсоединиться к последовательному порту принтера.");
             }
 
-            timer = new Timer {Interval = TIMER_INTERVAL, Enabled = true, AutoReset = true};
-            timer.Elapsed += new ElapsedEventHandler(OnSendStatusRequest);
-            timer.Start();
+            
+
+            if (!printerCheckStatus)
+            {
+                timer = new Timer { Interval = TIMER_INTERVAL, Enabled = true, AutoReset = true };
+                timer.Elapsed += new ElapsedEventHandler(OnSendStatusRequest);
+                timer.Start();
+            }
+           
         }
 
         void OnSendStatusRequest(object sender, ElapsedEventArgs e) {
@@ -136,7 +142,7 @@ namespace WepPrinterApplication.Printer
         public virtual void PrintStart() { }
         public virtual void PrintEnd() { }
         public virtual bool Connect() { return false; }
-        public virtual void Disconnect() { }
+        public virtual void Disconnect() { OnReceive -= ReceiveResponse; }
         #endregion
     }
 }

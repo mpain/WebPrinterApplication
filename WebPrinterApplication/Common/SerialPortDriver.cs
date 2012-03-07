@@ -7,7 +7,7 @@ using log4net;
 
 #endregion
 
-namespace WepPrinterApplication.Common {
+namespace WebPrinterApplication.Common {
     public delegate void SerialResponeEventHandler(SerialResponseArgs e);
 
     public class SerialResponseArgs : EventArgs {

@@ -14,8 +14,9 @@ namespace WepPrinterApplication.Printer
     public abstract class TicketProcessor {
         private static readonly ILog logger = LogManager.GetLogger(typeof(PrinterDriver));
 
-        public ITicketPrinter Printer { get; set; }
+        public ITicketPrinter Printer { get; set;}
 
+        public delegate void OnFinished();
 
         #region Константы
         protected const string FONT_NAME = "Courier New";
@@ -41,6 +42,24 @@ namespace WepPrinterApplication.Printer
 
         #endregion
 
+        public event OnFinished OnFinishedDelegate;
+
+        #region Thread Value Object
+        public class TicketProcessorData
+        {
+            public bool Emulate { get; private set; }
+            public String TicketPath { get; private set; }
+            public List<PrinterLineInfo> Infos { get; private set; }
+
+            public TicketProcessorData(bool emulate, String ticketPath, List<PrinterLineInfo> infos)
+            {
+                Emulate = emulate;
+                TicketPath = ticketPath;
+                Infos = infos;
+            }
+        }
+        #endregion
+
         #region Функции печати
         #region Печать графики
         private void GraphPrintLine(ref PrinterGraphInfo info, PrinterLineInfo line) {
@@ -56,7 +75,7 @@ namespace WepPrinterApplication.Printer
 
             Graphics g = info.graphics;
             string str = (!String.IsNullOrEmpty(line.value)) ? line.label + " " + line.value : line.label;
-            SizeF stringSize = g.MeasureString(str, GetGraphicalFontByType(line.fontType), new SizeF(info.width, 300), format);
+            SizeF stringSize = g.MeasureString(str, GetGraphicalFontByType(line.fontType), (int)info.width /*new SizeF(info.width, 300)*/, format);
 
             if (!info.isMeasureOnly) {
                 g.DrawString(str,
@@ -78,7 +97,7 @@ namespace WepPrinterApplication.Printer
             float labelHeight = 0, valueHeight = 0;
 
             if (!String.IsNullOrEmpty(line.label)) {
-                SizeF labelStringSize = g.MeasureString(line.label, GetGraphicalFontByType(line.fontType), new SizeF(info.width, 200), format);
+                SizeF labelStringSize = g.MeasureString(line.label, GetGraphicalFontByType(line.fontType), (int)info.width /*new SizeF(info.width, 200)*/, format);
                 oldWidth = labelStringSize.Width;
 
                 if (!info.isMeasureOnly)
@@ -100,7 +119,7 @@ namespace WepPrinterApplication.Printer
 
                 SizeF valueStringSize = g.MeasureString(line.value,
                     boldFont,
-                    new SizeF(info.width - oldWidth, 200),
+                    (int)(info.width - oldWidth) /*new SizeF(info.width - oldWidth, 200)*/,
                     format);
 
                 if (!info.isMeasureOnly) {
@@ -121,7 +140,7 @@ namespace WepPrinterApplication.Printer
         /// Печатает набор строк в виде графики
         /// </summary>
         /// <param name="lines">Строки для вывода</param>
-        private void GraphPrintLines(IEnumerable<PrinterLineInfo> lines) {
+        private void GraphPrintLines(TicketProcessorData ticketData) {
             int bmpWidth = Printer.PrintWidth * 8;
             int width = bmpWidth - 2 * Printer.PrintIntention * 8;
 
@@ -132,7 +151,7 @@ namespace WepPrinterApplication.Printer
                 try {
                     var info = new PrinterGraphInfo(g, width) {isMeasureOnly = true};
 
-                    foreach (var line in lines) {
+                    foreach (var line in ticketData.Infos) {
                         GraphPrintLine(ref info, line);
                     }
 
@@ -151,20 +170,37 @@ namespace WepPrinterApplication.Printer
                     g.FillRectangle(Brushes.White, new Rectangle(0, 0, img.Width, img.Height));
 
                     var info = new PrinterGraphInfo(g, width);
-                    foreach (var line in lines) {
+                    foreach (var line in ticketData.Infos) {
                         GraphPrintLine(ref info, line);
                     }
 
                     var data = GraphConvertToMonochrome(img);
-                    img.Save(@"C:\ticket.bmp", ImageFormat.Png);
-                    
-                    Printer.PrintMonochromeBitmap(data, img.Height, img.Width / 8);
+                    SaveImage(img, ticketData.TicketPath);
+
+                    if (!ticketData.Emulate)
+                    {
+                        Printer.PrintMonochromeBitmap(data, img.Height, img.Width / 8);
+                    }
                 } finally {
                     g.Dispose();
                 }
             } finally {
                 img.Dispose();
             }
+        }
+
+        private void SaveImage(Bitmap image, String path)
+        {
+            if (String.IsNullOrEmpty(path)) {
+                return;
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            image.Save(path, ImageFormat.Png);
         }
 
         /// <summary>
@@ -221,13 +257,16 @@ namespace WepPrinterApplication.Printer
         #endregion
 
         #region Печать текста
-        private void TextPrintLines(IEnumerable<PrinterLineInfo> lines) {
+        private void TextPrintLines(TicketProcessorData ticketData) {
             var info = new PrinterTextInfo(Printer.PrintWidth / 2);
-            foreach (var line in lines) {
+            foreach (var line in ticketData.Infos) {
                 TextPrintLine(ref info, line);
             }
 
-            Printer.PrintByteArray(Encoding.GetEncoding(1251).GetBytes(info.data));
+            if (!ticketData.Emulate)
+            {
+                Printer.PrintByteArray(Encoding.GetEncoding(1251).GetBytes(info.data));
+            }
         }
 
         private void TextPrintLine(ref PrinterTextInfo info, PrinterLineInfo line) {
@@ -365,7 +404,7 @@ namespace WepPrinterApplication.Printer
         #region Поток печати
         private Thread printThread;
 
-        protected void ThreadStart(List<PrinterLineInfo> infos) {
+        protected void ThreadStart(TicketProcessorData data) {
             try {
                 ThreadTerminate();
 
@@ -381,7 +420,7 @@ namespace WepPrinterApplication.Printer
                 // В случае вывода графики необходимо снижение приоритета потока, т.к. это может привести к
                 // подтормаживанию анимации при выводе графики пользовательского интерфейса
 
-                printThread.Start(infos);
+                printThread.Start(data);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
@@ -406,17 +445,30 @@ namespace WepPrinterApplication.Printer
             Monitor.Enter(Printer.LockObject);
 
             try {
-                if (parameter is List<PrinterLineInfo>) {
-                    var infos = parameter as List<PrinterLineInfo>;
+                if (parameter is TicketProcessorData) {
+                    var data = parameter as TicketProcessorData;
 
-                    Printer.PrintStart();
-                    PrintLogo();
-                    if (Printer.Mode == PrintMode.Graphic) {
-                        GraphPrintLines(infos.ToArray());
-                    } else {
-                        TextPrintLines(infos.ToArray());
+                    if (!data.Emulate)
+                    {
+                        Printer.PrintStart();
+                        PrintLogo();
                     }
-                    Printer.PrintEnd();
+
+                    if (Printer.Mode == PrintMode.Graphic) {
+                        GraphPrintLines(data);
+                    } else {
+                        TextPrintLines(data);
+                    }
+
+                    if (!data.Emulate)
+                    {
+                        Printer.PrintEnd();
+                    }
+
+                    if (OnFinishedDelegate != null)
+                    {
+                        OnFinishedDelegate();
+                    }
                 }
             } catch (Exception e) {
                 logger.Error("Print worker thread terminated cause error: " + e);

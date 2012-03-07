@@ -80,11 +80,10 @@ namespace WebPrinterApplication.Server
                         {
                             log.InfoFormat("CLient from IP address {0} connected\n", socket.RemoteEndPoint);
 
-                            Byte[] requestBuffer = new Byte[1024];
-                            int requestLength = socket.Receive(requestBuffer, requestBuffer.Length, 0);
 
+                            Byte[] requestBuffer = ReadToEnd(socket);
+                            String request = Encoding.ASCII.GetString(requestBuffer, 0, requestBuffer.Length);
 
-                            String request = Encoding.ASCII.GetString(requestBuffer, 0, requestLength);
                             log.InfoFormat("Request: {0}", request);
                             bool result = handlePrintRequest(request);
 
@@ -120,6 +119,21 @@ namespace WebPrinterApplication.Server
                 }
             }
             
+        }
+
+
+        private static byte[] ReadToEnd(Socket mySocket)
+        {
+            byte[] b = new byte[mySocket.ReceiveBufferSize];
+            int len = 0;
+            using (MemoryStream m = new MemoryStream())
+            {
+                while (mySocket.Poll(1000000, SelectMode.SelectRead) && (len = mySocket.Receive(b, mySocket.ReceiveBufferSize, SocketFlags.None)) > 0)
+                {
+                    m.Write(b, 0, len);
+                }
+                return m.ToArray();
+            }
         }
 
         public event OrderHandler OrderEvent;

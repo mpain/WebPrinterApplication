@@ -35,30 +35,34 @@
             this.comboBoxPrinterPort = new System.Windows.Forms.ComboBox();
             this.labelSmtpGateway = new System.Windows.Forms.Label();
             this.groupBoxCommon = new System.Windows.Forms.GroupBox();
+            this.labelPrinterPort = new System.Windows.Forms.Label();
             this.groupBoxCaption = new System.Windows.Forms.GroupBox();
+            this.checkBoxSkipPrinting = new System.Windows.Forms.CheckBox();
             this.textBoxCaption = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBoxSmtpGateway = new System.Windows.Forms.TextBox();
-            this.textBoxSmtpPort = new System.Windows.Forms.TextBox();
-            this.textBoxSmtpUser = new System.Windows.Forms.TextBox();
-            this.textBoxSmtpPassword = new System.Windows.Forms.TextBox();
             this.checkBoxSmtpUseSsl = new System.Windows.Forms.CheckBox();
-            this.labelSmtpPort = new System.Windows.Forms.Label();
-            this.labelSmtpUser = new System.Windows.Forms.Label();
-            this.labelSmtpPassword = new System.Windows.Forms.Label();
-            this.textBoxSmtpFrom = new System.Windows.Forms.TextBox();
             this.textBoxSmtpTo = new System.Windows.Forms.TextBox();
-            this.labelSmtpFrom = new System.Windows.Forms.Label();
+            this.textBoxSmtpFrom = new System.Windows.Forms.TextBox();
+            this.textBoxSmtpPassword = new System.Windows.Forms.TextBox();
+            this.textBoxSmtpUser = new System.Windows.Forms.TextBox();
+            this.textBoxSmtpPort = new System.Windows.Forms.TextBox();
+            this.textBoxSmtpGateway = new System.Windows.Forms.TextBox();
             this.labelSmtpTo = new System.Windows.Forms.Label();
-            this.labelPrinterPort = new System.Windows.Forms.Label();
+            this.labelSmtpFrom = new System.Windows.Forms.Label();
+            this.labelSmtpPassword = new System.Windows.Forms.Label();
+            this.labelSmtpUser = new System.Windows.Forms.Label();
+            this.labelSmtpPort = new System.Windows.Forms.Label();
+            this.groupBoxLastTicket = new System.Windows.Forms.GroupBox();
+            this.picBoxLastTicket = new WebPrinterApplication.Common.XtendPicBox();
             this.groupBoxCommon.SuspendLayout();
             this.groupBoxCaption.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBoxLastTicket.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonControl
             // 
-            this.buttonControl.Location = new System.Drawing.Point(12, 372);
+            this.buttonControl.Location = new System.Drawing.Point(13, 390);
             this.buttonControl.Name = "buttonControl";
             this.buttonControl.Size = new System.Drawing.Size(291, 39);
             this.buttonControl.TabIndex = 0;
@@ -113,15 +117,35 @@
             this.groupBoxCommon.TabStop = false;
             this.groupBoxCommon.Text = "Common Settings";
             // 
+            // labelPrinterPort
+            // 
+            this.labelPrinterPort.AutoSize = true;
+            this.labelPrinterPort.Location = new System.Drawing.Point(8, 23);
+            this.labelPrinterPort.Name = "labelPrinterPort";
+            this.labelPrinterPort.Size = new System.Drawing.Size(61, 13);
+            this.labelPrinterPort.TabIndex = 1;
+            this.labelPrinterPort.Text = "Printer port:";
+            // 
             // groupBoxCaption
             // 
+            this.groupBoxCaption.Controls.Add(this.checkBoxSkipPrinting);
             this.groupBoxCaption.Controls.Add(this.textBoxCaption);
-            this.groupBoxCaption.Location = new System.Drawing.Point(12, 98);
+            this.groupBoxCaption.Location = new System.Drawing.Point(12, 97);
             this.groupBoxCaption.Name = "groupBoxCaption";
-            this.groupBoxCaption.Size = new System.Drawing.Size(291, 54);
+            this.groupBoxCaption.Size = new System.Drawing.Size(291, 73);
             this.groupBoxCaption.TabIndex = 5;
             this.groupBoxCaption.TabStop = false;
             this.groupBoxCaption.Text = "Ticket Caption";
+            // 
+            // checkBoxSkipPrinting
+            // 
+            this.checkBoxSkipPrinting.AutoSize = true;
+            this.checkBoxSkipPrinting.Location = new System.Drawing.Point(191, 46);
+            this.checkBoxSkipPrinting.Name = "checkBoxSkipPrinting";
+            this.checkBoxSkipPrinting.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxSkipPrinting.TabIndex = 1;
+            this.checkBoxSkipPrinting.Text = "Skip Printing";
+            this.checkBoxSkipPrinting.UseVisualStyleBackColor = true;
             // 
             // textBoxCaption
             // 
@@ -145,45 +169,12 @@
             this.groupBox1.Controls.Add(this.labelSmtpUser);
             this.groupBox1.Controls.Add(this.labelSmtpPort);
             this.groupBox1.Controls.Add(this.labelSmtpGateway);
-            this.groupBox1.Location = new System.Drawing.Point(12, 158);
+            this.groupBox1.Location = new System.Drawing.Point(12, 176);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(291, 208);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Mail Settings";
-            // 
-            // textBoxSmtpGateway
-            // 
-            this.textBoxSmtpGateway.Location = new System.Drawing.Point(127, 19);
-            this.textBoxSmtpGateway.Name = "textBoxSmtpGateway";
-            this.textBoxSmtpGateway.Size = new System.Drawing.Size(158, 20);
-            this.textBoxSmtpGateway.TabIndex = 2;
-            this.textBoxSmtpGateway.Text = "smtp.yandex.ru";
-            // 
-            // textBoxSmtpPort
-            // 
-            this.textBoxSmtpPort.Location = new System.Drawing.Point(127, 45);
-            this.textBoxSmtpPort.Name = "textBoxSmtpPort";
-            this.textBoxSmtpPort.Size = new System.Drawing.Size(158, 20);
-            this.textBoxSmtpPort.TabIndex = 2;
-            this.textBoxSmtpPort.Text = "25";
-            // 
-            // textBoxSmtpUser
-            // 
-            this.textBoxSmtpUser.Location = new System.Drawing.Point(128, 71);
-            this.textBoxSmtpUser.Name = "textBoxSmtpUser";
-            this.textBoxSmtpUser.Size = new System.Drawing.Size(158, 20);
-            this.textBoxSmtpUser.TabIndex = 2;
-            this.textBoxSmtpUser.Text = "expert.terminal";
-            // 
-            // textBoxSmtpPassword
-            // 
-            this.textBoxSmtpPassword.Location = new System.Drawing.Point(127, 97);
-            this.textBoxSmtpPassword.Name = "textBoxSmtpPassword";
-            this.textBoxSmtpPassword.PasswordChar = '*';
-            this.textBoxSmtpPassword.Size = new System.Drawing.Size(158, 20);
-            this.textBoxSmtpPassword.TabIndex = 2;
-            this.textBoxSmtpPassword.Text = "Qwe4Rty7";
             // 
             // checkBoxSmtpUseSsl
             // 
@@ -195,32 +186,12 @@
             this.checkBoxSmtpUseSsl.Text = "use SSL";
             this.checkBoxSmtpUseSsl.UseVisualStyleBackColor = true;
             // 
-            // labelSmtpPort
+            // textBoxSmtpTo
             // 
-            this.labelSmtpPort.AutoSize = true;
-            this.labelSmtpPort.Location = new System.Drawing.Point(8, 48);
-            this.labelSmtpPort.Name = "labelSmtpPort";
-            this.labelSmtpPort.Size = new System.Drawing.Size(62, 13);
-            this.labelSmtpPort.TabIndex = 1;
-            this.labelSmtpPort.Text = "SMTP Port:";
-            // 
-            // labelSmtpUser
-            // 
-            this.labelSmtpUser.AutoSize = true;
-            this.labelSmtpUser.Location = new System.Drawing.Point(8, 74);
-            this.labelSmtpUser.Name = "labelSmtpUser";
-            this.labelSmtpUser.Size = new System.Drawing.Size(65, 13);
-            this.labelSmtpUser.TabIndex = 1;
-            this.labelSmtpUser.Text = "SMTP User:";
-            // 
-            // labelSmtpPassword
-            // 
-            this.labelSmtpPassword.AutoSize = true;
-            this.labelSmtpPassword.Location = new System.Drawing.Point(8, 100);
-            this.labelSmtpPassword.Name = "labelSmtpPassword";
-            this.labelSmtpPassword.Size = new System.Drawing.Size(89, 13);
-            this.labelSmtpPassword.TabIndex = 1;
-            this.labelSmtpPassword.Text = "SMTP Password:";
+            this.textBoxSmtpTo.Location = new System.Drawing.Point(127, 172);
+            this.textBoxSmtpTo.Name = "textBoxSmtpTo";
+            this.textBoxSmtpTo.Size = new System.Drawing.Size(158, 20);
+            this.textBoxSmtpTo.TabIndex = 2;
             // 
             // textBoxSmtpFrom
             // 
@@ -230,22 +201,38 @@
             this.textBoxSmtpFrom.TabIndex = 2;
             this.textBoxSmtpFrom.Text = "expert.terminal@yandex.ru";
             // 
-            // textBoxSmtpTo
+            // textBoxSmtpPassword
             // 
-            this.textBoxSmtpTo.Location = new System.Drawing.Point(127, 172);
-            this.textBoxSmtpTo.Name = "textBoxSmtpTo";
-            this.textBoxSmtpTo.Size = new System.Drawing.Size(158, 20);
-            this.textBoxSmtpTo.TabIndex = 2;
-            this.textBoxSmtpTo.Text = "sergey.samoylov@gmail.com";
+            this.textBoxSmtpPassword.Location = new System.Drawing.Point(127, 97);
+            this.textBoxSmtpPassword.Name = "textBoxSmtpPassword";
+            this.textBoxSmtpPassword.PasswordChar = '*';
+            this.textBoxSmtpPassword.Size = new System.Drawing.Size(158, 20);
+            this.textBoxSmtpPassword.TabIndex = 2;
+            this.textBoxSmtpPassword.Text = "Qwe4Rty7";
             // 
-            // labelSmtpFrom
+            // textBoxSmtpUser
             // 
-            this.labelSmtpFrom.AutoSize = true;
-            this.labelSmtpFrom.Location = new System.Drawing.Point(8, 149);
-            this.labelSmtpFrom.Name = "labelSmtpFrom";
-            this.labelSmtpFrom.Size = new System.Drawing.Size(30, 13);
-            this.labelSmtpFrom.TabIndex = 1;
-            this.labelSmtpFrom.Text = "From";
+            this.textBoxSmtpUser.Location = new System.Drawing.Point(128, 71);
+            this.textBoxSmtpUser.Name = "textBoxSmtpUser";
+            this.textBoxSmtpUser.Size = new System.Drawing.Size(158, 20);
+            this.textBoxSmtpUser.TabIndex = 2;
+            this.textBoxSmtpUser.Text = "expert.terminal";
+            // 
+            // textBoxSmtpPort
+            // 
+            this.textBoxSmtpPort.Location = new System.Drawing.Point(127, 45);
+            this.textBoxSmtpPort.Name = "textBoxSmtpPort";
+            this.textBoxSmtpPort.Size = new System.Drawing.Size(158, 20);
+            this.textBoxSmtpPort.TabIndex = 2;
+            this.textBoxSmtpPort.Text = "25";
+            // 
+            // textBoxSmtpGateway
+            // 
+            this.textBoxSmtpGateway.Location = new System.Drawing.Point(127, 19);
+            this.textBoxSmtpGateway.Name = "textBoxSmtpGateway";
+            this.textBoxSmtpGateway.Size = new System.Drawing.Size(158, 20);
+            this.textBoxSmtpGateway.TabIndex = 2;
+            this.textBoxSmtpGateway.Text = "smtp.yandex.ru";
             // 
             // labelSmtpTo
             // 
@@ -256,20 +243,67 @@
             this.labelSmtpTo.TabIndex = 1;
             this.labelSmtpTo.Text = "To";
             // 
-            // labelPrinterPort
+            // labelSmtpFrom
             // 
-            this.labelPrinterPort.AutoSize = true;
-            this.labelPrinterPort.Location = new System.Drawing.Point(8, 23);
-            this.labelPrinterPort.Name = "labelPrinterPort";
-            this.labelPrinterPort.Size = new System.Drawing.Size(61, 13);
-            this.labelPrinterPort.TabIndex = 1;
-            this.labelPrinterPort.Text = "Printer port:";
+            this.labelSmtpFrom.AutoSize = true;
+            this.labelSmtpFrom.Location = new System.Drawing.Point(8, 149);
+            this.labelSmtpFrom.Name = "labelSmtpFrom";
+            this.labelSmtpFrom.Size = new System.Drawing.Size(30, 13);
+            this.labelSmtpFrom.TabIndex = 1;
+            this.labelSmtpFrom.Text = "From";
+            // 
+            // labelSmtpPassword
+            // 
+            this.labelSmtpPassword.AutoSize = true;
+            this.labelSmtpPassword.Location = new System.Drawing.Point(8, 100);
+            this.labelSmtpPassword.Name = "labelSmtpPassword";
+            this.labelSmtpPassword.Size = new System.Drawing.Size(89, 13);
+            this.labelSmtpPassword.TabIndex = 1;
+            this.labelSmtpPassword.Text = "SMTP Password:";
+            // 
+            // labelSmtpUser
+            // 
+            this.labelSmtpUser.AutoSize = true;
+            this.labelSmtpUser.Location = new System.Drawing.Point(8, 74);
+            this.labelSmtpUser.Name = "labelSmtpUser";
+            this.labelSmtpUser.Size = new System.Drawing.Size(65, 13);
+            this.labelSmtpUser.TabIndex = 1;
+            this.labelSmtpUser.Text = "SMTP User:";
+            // 
+            // labelSmtpPort
+            // 
+            this.labelSmtpPort.AutoSize = true;
+            this.labelSmtpPort.Location = new System.Drawing.Point(8, 48);
+            this.labelSmtpPort.Name = "labelSmtpPort";
+            this.labelSmtpPort.Size = new System.Drawing.Size(62, 13);
+            this.labelSmtpPort.TabIndex = 1;
+            this.labelSmtpPort.Text = "SMTP Port:";
+            // 
+            // groupBoxLastTicket
+            // 
+            this.groupBoxLastTicket.Controls.Add(this.picBoxLastTicket);
+            this.groupBoxLastTicket.Location = new System.Drawing.Point(310, 13);
+            this.groupBoxLastTicket.Name = "groupBoxLastTicket";
+            this.groupBoxLastTicket.Size = new System.Drawing.Size(642, 416);
+            this.groupBoxLastTicket.TabIndex = 6;
+            this.groupBoxLastTicket.TabStop = false;
+            this.groupBoxLastTicket.Text = "Last Ticket";
+            // 
+            // picBoxLastTicket
+            // 
+            this.picBoxLastTicket.AutoScroll = true;
+            this.picBoxLastTicket.Location = new System.Drawing.Point(6, 19);
+            this.picBoxLastTicket.Name = "picBoxLastTicket";
+            this.picBoxLastTicket.PictureFile = "";
+            this.picBoxLastTicket.Size = new System.Drawing.Size(630, 391);
+            this.picBoxLastTicket.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(315, 423);
+            this.ClientSize = new System.Drawing.Size(964, 441);
+            this.Controls.Add(this.groupBoxLastTicket);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxCaption);
             this.Controls.Add(this.buttonControl);
@@ -279,6 +313,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WebPrinter Application";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.Load += new System.EventHandler(this.OnLoad);
@@ -288,6 +323,7 @@
             this.groupBoxCaption.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBoxLastTicket.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -316,6 +352,9 @@
         private System.Windows.Forms.Label labelSmtpPassword;
         private System.Windows.Forms.Label labelSmtpUser;
         private System.Windows.Forms.Label labelSmtpPort;
+        private System.Windows.Forms.GroupBox groupBoxLastTicket;
+        private Common.XtendPicBox picBoxLastTicket;
+        private System.Windows.Forms.CheckBox checkBoxSkipPrinting;
     }
 }
 

@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Web" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -49,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\SerialPortDriver.cs" />
+    <Compile Include="Common\XtendPicBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\XtendPicBox.designer.cs">
+      <DependentUpon>XtendPicBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mail\MailService.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

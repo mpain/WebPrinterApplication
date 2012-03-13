@@ -16,7 +16,7 @@ namespace WepPrinterApplication.Printer
 
         public ITicketPrinter Printer { get; set;}
 
-        public delegate void OnFinished();
+        public delegate void OnFinished(Image image);
 
         #region Константы
         protected const string FONT_NAME = "Courier New";
@@ -48,13 +48,11 @@ namespace WepPrinterApplication.Printer
         public class TicketProcessorData
         {
             public bool Emulate { get; private set; }
-            public String TicketPath { get; private set; }
             public List<PrinterLineInfo> Infos { get; private set; }
 
-            public TicketProcessorData(bool emulate, String ticketPath, List<PrinterLineInfo> infos)
+            public TicketProcessorData(bool emulate, List<PrinterLineInfo> infos)
             {
                 Emulate = emulate;
-                TicketPath = ticketPath;
                 Infos = infos;
             }
         }
@@ -140,7 +138,7 @@ namespace WepPrinterApplication.Printer
         /// Печатает набор строк в виде графики
         /// </summary>
         /// <param name="lines">Строки для вывода</param>
-        private void GraphPrintLines(TicketProcessorData ticketData) {
+        private Image GraphPrintLines(TicketProcessorData ticketData) {
             int bmpWidth = Printer.PrintWidth * 8;
             int width = bmpWidth - 2 * Printer.PrintIntention * 8;
 
@@ -175,32 +173,20 @@ namespace WepPrinterApplication.Printer
                     }
 
                     var data = GraphConvertToMonochrome(img);
-                    SaveImage(img, ticketData.TicketPath);
-
+                    
                     if (!ticketData.Emulate)
                     {
+                        logger.Info("Printing a bitmap...");
                         Printer.PrintMonochromeBitmap(data, img.Height, img.Width / 8);
                     }
+
+                    return new Bitmap(img);
                 } finally {
                     g.Dispose();
                 }
             } finally {
                 img.Dispose();
             }
-        }
-
-        private void SaveImage(Bitmap image, String path)
-        {
-            if (String.IsNullOrEmpty(path)) {
-                return;
-            }
-
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            image.Save(path, ImageFormat.Png);
         }
 
         /// <summary>
@@ -454,8 +440,9 @@ namespace WepPrinterApplication.Printer
                         PrintLogo();
                     }
 
+                    Image image = null;
                     if (Printer.Mode == PrintMode.Graphic) {
-                        GraphPrintLines(data);
+                        image = GraphPrintLines(data);
                     } else {
                         TextPrintLines(data);
                     }
@@ -467,7 +454,7 @@ namespace WepPrinterApplication.Printer
 
                     if (OnFinishedDelegate != null)
                     {
-                        OnFinishedDelegate();
+                        OnFinishedDelegate(image);
                     }
                 }
             } catch (Exception e) {

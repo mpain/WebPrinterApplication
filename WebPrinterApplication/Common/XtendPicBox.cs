@@ -17,7 +17,6 @@ namespace WebPrinterApplication.Common
 
 
         PictureBox innerPicture = new PictureBox();
-        private string mPictureFile = string.Empty;
         private bool mAutoScroll = true;
 
 #endregion
@@ -61,52 +60,47 @@ namespace WebPrinterApplication.Common
         /// design time (to provide an interface for
         /// browsing to and selecting the image file
         /// </summary>
-        [Category("Image File")]
-        [Browsable(true)]
-        [Description("Set path to image file.")]
-        [Editor(typeof(System.Windows.Forms.Design.FileNameEditor),
-          typeof(System.Drawing.Design.UITypeEditor))]
-        public string PictureFile
+        [Browsable(false)]
+        public Image Image
         {
             get
             {
-                return mPictureFile;
+                return (innerPicture.Image != null) ? innerPicture.Image : null;
             }
             set
             {
-                mPictureFile = value;
-
-                if (!string.IsNullOrEmpty(mPictureFile))
-                {
-                    
-                    // set the image to the image file
-                    innerPicture.Image = Image.FromFile(mPictureFile);
-                    UpdateInnerSize(innerPicture.Image.Size);
-                }
-                else
-                {
-                    if (innerPicture.Image != null)
-                    {
-                        innerPicture.Image.Dispose();
-                        innerPicture.Image = null;
-                    }
-                }
+                UpdateImage(value);
             }
         }
 
-        private void UpdateInnerSize(Size size)
+        private void UpdateImage(Image image)
         {
+            if (innerPicture == null)
+            {
+                return;
+            }
+
             if (innerPicture.InvokeRequired)
             {
-                innerPicture.Invoke(new SetSize(UpdateInnerSize), new object[] { size });
+                innerPicture.Invoke(new UpdateImageDelegate(UpdateImage), new object[] { image });
             }
             else
             {
-                innerPicture.Size = size;
+                if (innerPicture.Image != null)
+                {
+                    innerPicture.Image.Dispose();
+                }
+
+                innerPicture.Image = image;
+
+                if (innerPicture.Image != null)
+                {
+                    innerPicture.Size = innerPicture.Image.Size;
+                }
             }
         }
 
-        public delegate void SetSize(Size size);
+        public delegate void UpdateImageDelegate(Image image);
         /// <summary>
         /// Override the autoscroll property
         /// and use the browsable attribute

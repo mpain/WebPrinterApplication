@@ -1,4 +1,5 @@
-﻿namespace WebPrinterApplication
+﻿using System.Drawing;
+namespace WebPrinterApplication
 {
     partial class MainForm
     {
@@ -179,6 +180,8 @@
             // checkBoxSmtpUseSsl
             // 
             this.checkBoxSmtpUseSsl.AutoSize = true;
+            this.checkBoxSmtpUseSsl.Checked = true;
+            this.checkBoxSmtpUseSsl.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSmtpUseSsl.Location = new System.Drawing.Point(128, 123);
             this.checkBoxSmtpUseSsl.Name = "checkBoxSmtpUseSsl";
             this.checkBoxSmtpUseSsl.Size = new System.Drawing.Size(66, 17);
@@ -192,6 +195,7 @@
             this.textBoxSmtpTo.Name = "textBoxSmtpTo";
             this.textBoxSmtpTo.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpTo.TabIndex = 2;
+            this.textBoxSmtpTo.Text = "parinov@expertonline.ru";
             // 
             // textBoxSmtpFrom
             // 
@@ -199,7 +203,7 @@
             this.textBoxSmtpFrom.Name = "textBoxSmtpFrom";
             this.textBoxSmtpFrom.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpFrom.TabIndex = 2;
-            this.textBoxSmtpFrom.Text = "expert.terminal@yandex.ru";
+            this.textBoxSmtpFrom.Text = "terminal@expert-retailer.com";
             // 
             // textBoxSmtpPassword
             // 
@@ -208,7 +212,7 @@
             this.textBoxSmtpPassword.PasswordChar = '*';
             this.textBoxSmtpPassword.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpPassword.TabIndex = 2;
-            this.textBoxSmtpPassword.Text = "Qwe4Rty7";
+            this.textBoxSmtpPassword.Text = "terminal@expert-retailer.com";
             // 
             // textBoxSmtpUser
             // 
@@ -216,7 +220,7 @@
             this.textBoxSmtpUser.Name = "textBoxSmtpUser";
             this.textBoxSmtpUser.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpUser.TabIndex = 2;
-            this.textBoxSmtpUser.Text = "expert.terminal";
+            this.textBoxSmtpUser.Text = "terminal@expert-retailer.com";
             // 
             // textBoxSmtpPort
             // 
@@ -224,7 +228,7 @@
             this.textBoxSmtpPort.Name = "textBoxSmtpPort";
             this.textBoxSmtpPort.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpPort.TabIndex = 2;
-            this.textBoxSmtpPort.Text = "25";
+            this.textBoxSmtpPort.Text = "465";
             // 
             // textBoxSmtpGateway
             // 
@@ -232,7 +236,7 @@
             this.textBoxSmtpGateway.Name = "textBoxSmtpGateway";
             this.textBoxSmtpGateway.Size = new System.Drawing.Size(158, 20);
             this.textBoxSmtpGateway.TabIndex = 2;
-            this.textBoxSmtpGateway.Text = "smtp.yandex.ru";
+            this.textBoxSmtpGateway.Text = "smtp.gmail.com";
             // 
             // labelSmtpTo
             // 
@@ -292,9 +296,9 @@
             // picBoxLastTicket
             // 
             this.picBoxLastTicket.AutoScroll = true;
+            this.picBoxLastTicket.Image = null;
             this.picBoxLastTicket.Location = new System.Drawing.Point(6, 19);
             this.picBoxLastTicket.Name = "picBoxLastTicket";
-            this.picBoxLastTicket.PictureFile = "";
             this.picBoxLastTicket.Size = new System.Drawing.Size(630, 391);
             this.picBoxLastTicket.TabIndex = 0;
             // 

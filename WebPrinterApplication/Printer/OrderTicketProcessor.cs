@@ -25,7 +25,7 @@ namespace WepPrinterApplication.Printer
     public interface IOrderTicketProcessor
     {
         event WepPrinterApplication.Printer.TicketProcessor.OnFinished OnFinishedDelegate;
-        void PrintTicket(OrderData data, bool emulate, String ticketPath);
+        void PrintTicket(OrderData data, bool emulate);
         void Start(String logoPath);
         void Stop();
     }
@@ -34,7 +34,7 @@ namespace WepPrinterApplication.Printer
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(OrderTicketProcessor));
 
-        public void PrintTicket(OrderData data, bool emulate, String ticketPath)
+        public void PrintTicket(OrderData data, bool emulate)
         {
             PrinterLineInfo line = new PrinterLineInfo(true, PrinterLineFontType.Default, "---------------------------------");
                 
@@ -56,7 +56,7 @@ namespace WepPrinterApplication.Printer
                 logger.Info(info.ToString());
             }
 
-            ThreadStart(new TicketProcessorData(emulate, ticketPath, infos));
+            ThreadStart(new TicketProcessorData(emulate, infos));
         }
 
         public static string CleanMessage(string source)
